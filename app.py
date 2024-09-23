@@ -1,11 +1,10 @@
 
 from flask import Flask, render_template, request
 from patterns import patterns
-
 import yfinance as yf
 import os
 import pandas as pd
-import talib
+import talib as ta
 
 app = Flask(__name__)
 
@@ -16,7 +15,7 @@ def index():
         datafiles = os.listdir("datasets/daily")
         for dataset in datafiles:
             df = pd.read_csv('datasets/daily/{}'.format(dataset))
-            pattern_function = getattr(talib,pattern)
+            pattern_function = getattr(ta, pattern)
             try:
                 result = pattern_function(df['Open'], df['High'], df['Low'], df['Close'])
                 print(result)
